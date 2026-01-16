@@ -1,0 +1,13 @@
+-- SQL Script which converts the received datapoints from firestore
+-- into a "flat" readable structure for later analysis in bigquery
+--- Das nochmal ändern? ändert sich der projektname? oder der post name?
+
+
+CREATE OR REPLACE VIEW
+`iot-compost-project.firestore_export.irrigationData_flat` AS
+SELECT
+  JSON_EXTRACT_SCALAR(data, '$.deviceID') AS deviceId,
+  TIMESTAMP(timestamp) AS serverTimestamp,
+  CAST(JSON_EXTRACT_SCALAR(data, '$.soilMoisture') AS INT64) AS soilMoisture
+FROM
+  `iot-compost-project.firestore_export.posts_raw_latest`;
