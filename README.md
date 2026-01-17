@@ -1,12 +1,35 @@
 ## Step by Step to start data publishing, subscription & forwarding to Firestore
-### 1. Log into GCP, choose destined project
-### 2. Start the Virtual machine
--  Load python script in order to forward data to the firestore database
+For detailed instructions regarding API Activation, please refer to the Assignment Report
+
+### 1. Log into GCP, choose specified project
+### 2. Start 2 Virtual machines (VM)
+#### IF ACTUAL SENSOR SYSTEM HAS BEEN BUILD, FOLLOW A. ONLY & FOLLOW ALTERNATIVE TO B.
+#### A. Machine 1: acts as a MQTT Broker
+-  Update & Upgrade the Virtual Machine to make sure it runs on the latest patch
+```ubuntu shell
+sudo apt-get update
+sudo apt-get upgrade
+```
+-  Install MQTT Broker in the VM
+```ubuntu shell
+sudo apt-get install mosquitto
+```
+- Install MQTT Clients
+```ubuntu shell
+sudo apt-get install mosquitto-clients
+```
+-  Load python script "mqttToFirestore_irr.py" in order to forward data to the firestore database
 -  start python script
 ```ubuntu shell
-python3 mqttToFirestore.py
+python3 mqttToFirestore_irr.py
 ```
-### 3. Power up IoT System (Assumed MCU has already loaded the latest script):
+#### B. Machine 2: acts as MQTT Publisher, de facto as the IoT System transmitting data
+- sends data to the First VM
+- Load python script "dataGenerator.py" in order to forward data to the firestore database
+```ubuntu shell
+python3 dataGenerator.py
+```
+#### ALTERNATIVE to B: Power up IoT System (Assumed MCU has already loaded the latest script):
 -  Check the Serial monitor for
     -    Data being read
     -    Successful Network Connection Status
