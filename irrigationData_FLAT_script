@@ -7,7 +7,7 @@ SELECT
   JSON_EXTRACT_SCALAR(data, '$.deviceID') AS deviceId,
   TIMESTAMP(timestamp) AS serverTimestamp,
   CAST(JSON_EXTRACT_SCALAR(data, '$.soilMoisture') AS INT64) AS soilMoisture,
-  CAST(JSON_EXTRACT_SCALAR(data, '$.temperature') AS INT64) AS temperature,
-  CAST(JSON_EXTRACT_SCALAR(data, '$.phValue') AS INT64) AS phValue
+  CAST(JSON_EXTRACT_SCALAR(data, '$.temperature') AS FLOAT64) AS temperature,
+  CAST(JSON_EXTRACT_SCALAR(data, '$.phValue') AS FLOAT64) AS phValue
 FROM
   `iot-compost-project.irrigation_export.irrigation_data_raw_latest`;
