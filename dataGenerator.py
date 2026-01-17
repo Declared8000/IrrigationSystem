@@ -15,6 +15,7 @@ client.connect(mqttBroker, mqttPort)
 
 current_moisture = 45
 current_temperature = 28.0
+current_ph = 6.5
 
 def generate_soil_moisture():
         global current_moisture
@@ -33,14 +34,25 @@ def generate_temperature():
         current_temperature = max(24.0, min(32.0, current_temperature)) 
         return round(current_temperature,2)
 
+def generate_ph():
+        global current_ph
+
+        change = random.choice([-0.1, -0.05, 0.05, 0.1])
+        current_ph += change
+        current_ph = max(5.5, min(7.5, current_ph))
+
+        return round(current_ph,2)
+
 print("Start Data Generation Simulation")
 while True:
         data = {
                 "deviceID": "esp32_irrigation",
                 "soilMoisture": generate_soil_moisture(),
                 "temperature": generate_temperature(),
+                "phValue": generate_ph(),
                 "timestamp": datetime.utcnow().isoformat()
         }
+        
         payload = json.dumps(data)
         client.publish(mqttTopic, payload)
         print("Publish Data:", data)
