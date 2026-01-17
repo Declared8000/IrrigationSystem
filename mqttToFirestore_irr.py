@@ -1,16 +1,15 @@
-
+# script Name: mqttToFirestore_irr.py                                        
 import json 
 import paho.mqtt.client as mqtt
 import firebase_admin
 from firebase_admin import credentials, firestore
 from google.cloud.firestore import SERVER_TIMESTAMP
 
-# initialzie firestore
+
 cred = credentials.ApplicationDefault()
 firebase_admin.initialize_app(cred)
 db = firestore.client()
 
-# mqtt settings
 mqttBroker = "localhost"
 mqttTopic = "iot/irrigation"
 mqttPort = 1883
@@ -18,21 +17,20 @@ mqttPort = 1883
 def on_message(client, userdata, msg):
         data = json.loads(msg.payload.decode())
 
-        print("Received:", data)
+        print("Received Data:", data)
 
-        # write into firestore
         db.collection("irrigationData").add({
-  	"deviceID": data["deviceID"],
-        "timestamp": SERVER_TIMESTAMP,
-        "soilMoisture": data["soilMoisture"]
+        "deviceID": data["deviceID"],
+        "soilMoisture": data["soilMoisture"],
+        "temperature": data["temperature"],
+        "timestamp": SERVER_TIMESTAMP
         })
 
 client = mqtt.Client()
-client.connect(mqttBroker, 1883)
+client.connect(mqttBroker, mqttPort)
 client.subscribe(mqttTopic)
 client.on_message = on_message
 
 print("MQTT to Firestore connection running ...")
+print("Receive datat to Topic:", mqttTopic)
 client.loop_forever()
-
-
