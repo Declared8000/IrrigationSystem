@@ -24,7 +24,7 @@ def on_message(client, userdata, msg):
         db.collection("irrigationData").add({
   	"deviceID": data["deviceID"],
         "timestamp": SERVER_TIMESTAMP,
-        "soilTemperature": data["soilTemperature"]
+        "soilMoisture": data["soilMoisture"]
         })
 
 client = mqtt.Client()
@@ -34,4 +34,5 @@ client.on_message = on_message
 
 print("MQTT to Firestore connection running ...")
 client.loop_forever()
+
 
