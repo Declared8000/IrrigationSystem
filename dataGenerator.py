@@ -7,7 +7,8 @@ from datetime import datetime
 import paho.mqtt.client as mqtt
 
 mqttBroker ="localhost"
-mqttPort = 1883
+# specify the four-digit Port
+mqttPort = XXXX
 mqttTopic = "iot/irrigation"
 
 client = mqtt.Client()
