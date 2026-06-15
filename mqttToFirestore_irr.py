@@ -12,7 +12,8 @@ db = firestore.client()
 
 mqttBroker = "localhost"
 mqttTopic = "iot/irrigation"
-mqttPort = 1883
+# specify a four-digit Port 
+mqttPort = XXXX 
 
 def on_message(client, userdata, msg):
         data = json.loads(msg.payload.decode())
